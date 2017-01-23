@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ExcelModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Probes">
+          <Key>
+            <PropertyRef Name="Probe_ID" />
+          </Key>
+          <Property Name="Probe_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProbeName" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="SCImport">
+          <Key>
+            <PropertyRef Name="SCImportID" />
+          </Key>
+          <Property Name="SCImportID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RelateIPAddress" Type="nchar" MaxLength="150" />
+          <Property Name="RelatedNode" Type="nchar" MaxLength="150" />
+          <Property Name="ProbeID" Type="int" Nullable="false" />
+          <Property Name="Job" Type="nchar" MaxLength="150" />
+          <Property Name="CIType" Type="nchar" MaxLength="150" />
+          <Property Name="TimeErrorReported" Type="datetime" />
+          <Property Name="Severity" Type="nchar" MaxLength="150" />
+          <Property Name="ErrorMessage" Type="nchar" MaxLength="150" />
+          <Property Name="Count" Type="int" />
+          <Property Name="ErrorSummary" Type="nchar" MaxLength="150" />
+          <Property Name="LastTimeActive" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_SCImport_Probes">
+          <End Role="Probes" Type="Self.Probes" Multiplicity="1" />
+          <End Role="SCImport" Type="Self.SCImport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Probes">
+              <PropertyRef Name="Probe_ID" />
+            </Principal>
+            <Dependent Role="SCImport">
+              <PropertyRef Name="ProbeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExcelModelStoreContainer">
+          <EntitySet Name="Probes" EntityType="Self.Probes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SCImport" EntityType="Self.SCImport" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_SCImport_Probes" Association="Self.FK_SCImport_Probes">
+            <End Role="Probes" EntitySet="Probes" />
+            <End Role="SCImport" EntitySet="SCImport" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExcelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Probe">
+          <Key>
+            <PropertyRef Name="Probe_ID" />
+          </Key>
+          <Property Name="Probe_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProbeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SCImports" Relationship="Self.FK_SCImport_Probes" FromRole="Probes" ToRole="SCImport" />
+        </EntityType>
+        <EntityType Name="SCImport">
+          <Key>
+            <PropertyRef Name="SCImportID" />
+          </Key>
+          <Property Name="SCImportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RelateIPAddress" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+          <Property Name="RelatedNode" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+          <Property Name="ProbeID" Type="Int32" Nullable="false" />
+          <Property Name="Job" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+          <Property Name="CIType" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+          <Property Name="TimeErrorReported" Type="DateTime" Precision="3" />
+          <Property Name="Severity" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+          <Property Name="ErrorMessage" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+          <Property Name="Count" Type="Int32" />
+          <Property Name="ErrorSummary" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+          <Property Name="LastTimeActive" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Probe" Relationship="Self.FK_SCImport_Probes" FromRole="SCImport" ToRole="Probes" />
+        </EntityType>
+        <Association Name="FK_SCImport_Probes">
+          <End Role="Probes" Type="Self.Probe" Multiplicity="1" />
+          <End Role="SCImport" Type="Self.SCImport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Probes">
+              <PropertyRef Name="Probe_ID" />
+            </Principal>
+            <Dependent Role="SCImport">
+              <PropertyRef Name="ProbeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExcelEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Probes" EntityType="Self.Probe" />
+          <EntitySet Name="SCImports" EntityType="Self.SCImport" />
+          <AssociationSet Name="FK_SCImport_Probes" Association="Self.FK_SCImport_Probes">
+            <End Role="Probes" EntitySet="Probes" />
+            <End Role="SCImport" EntitySet="SCImports" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ExcelModelStoreContainer" CdmEntityContainer="ExcelEntities">
+          <EntitySetMapping Name="Probes">
+            <EntityTypeMapping TypeName="ExcelModel.Probe">
+              <MappingFragment StoreEntitySet="Probes">
+                <ScalarProperty Name="Probe_ID" ColumnName="Probe_ID" />
+                <ScalarProperty Name="ProbeName" ColumnName="ProbeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SCImports">
+            <EntityTypeMapping TypeName="ExcelModel.SCImport">
+              <MappingFragment StoreEntitySet="SCImport">
+                <ScalarProperty Name="SCImportID" ColumnName="SCImportID" />
+                <ScalarProperty Name="RelateIPAddress" ColumnName="RelateIPAddress" />
+                <ScalarProperty Name="RelatedNode" ColumnName="RelatedNode" />
+                <ScalarProperty Name="ProbeID" ColumnName="ProbeID" />
+                <ScalarProperty Name="Job" ColumnName="Job" />
+                <ScalarProperty Name="CIType" ColumnName="CIType" />
+                <ScalarProperty Name="TimeErrorReported" ColumnName="TimeErrorReported" />
+                <ScalarProperty Name="Severity" ColumnName="Severity" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="ErrorSummary" ColumnName="ErrorSummary" />
+                <ScalarProperty Name="LastTimeActive" ColumnName="LastTimeActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ExcelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Probe">
+    <Key>
+      <PropertyRef Name="Probe_ID" />
+    </Key>
+    <Property Name="Probe_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProbeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="SCImports" Relationship="Self.FK_SCImport_Probes" FromRole="Probes" ToRole="SCImport" />
+  </EntityType>
+  <EntityType Name="SCImport">
+    <Key>
+      <PropertyRef Name="SCImportID" />
+    </Key>
+    <Property Name="SCImportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RelateIPAddress" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+    <Property Name="RelatedNode" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+    <Property Name="ProbeID" Type="Int32" Nullable="false" />
+    <Property Name="Job" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+    <Property Name="CIType" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+    <Property Name="TimeErrorReported" Type="DateTime" Precision="3" />
+    <Property Name="Severity" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+    <Property Name="ErrorMessage" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+    <Property Name="Count" Type="Int32" />
+    <Property Name="ErrorSummary" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
+    <Property Name="LastTimeActive" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Probe" Relationship="Self.FK_SCImport_Probes" FromRole="SCImport" ToRole="Probes" />
+  </EntityType>
+  <Association Name="FK_SCImport_Probes">
+    <End Role="Probes" Type="Self.Probe" Multiplicity="1" />
+    <End Role="SCImport" Type="Self.SCImport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Probes">
+        <PropertyRef Name="Probe_ID" />
+      </Principal>
+      <Dependent Role="SCImport">
+        <PropertyRef Name="ProbeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ExcelEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Probes" EntityType="Self.Probe" />
+    <EntitySet Name="SCImports" EntityType="Self.SCImport" />
+    <AssociationSet Name="FK_SCImport_Probes" Association="Self.FK_SCImport_Probes">
+      <End Role="Probes" EntitySet="Probes" />
+      <End Role="SCImport" EntitySet="SCImports" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

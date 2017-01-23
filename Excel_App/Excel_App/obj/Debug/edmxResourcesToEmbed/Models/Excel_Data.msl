@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ExcelModelStoreContainer" CdmEntityContainer="ExcelEntities">
+    <EntitySetMapping Name="Probes">
+      <EntityTypeMapping TypeName="ExcelModel.Probe">
+        <MappingFragment StoreEntitySet="Probes">
+          <ScalarProperty Name="Probe_ID" ColumnName="Probe_ID" />
+          <ScalarProperty Name="ProbeName" ColumnName="ProbeName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SCImports">
+      <EntityTypeMapping TypeName="ExcelModel.SCImport">
+        <MappingFragment StoreEntitySet="SCImport">
+          <ScalarProperty Name="SCImportID" ColumnName="SCImportID" />
+          <ScalarProperty Name="RelateIPAddress" ColumnName="RelateIPAddress" />
+          <ScalarProperty Name="RelatedNode" ColumnName="RelatedNode" />
+          <ScalarProperty Name="ProbeID" ColumnName="ProbeID" />
+          <ScalarProperty Name="Job" ColumnName="Job" />
+          <ScalarProperty Name="CIType" ColumnName="CIType" />
+          <ScalarProperty Name="TimeErrorReported" ColumnName="TimeErrorReported" />
+          <ScalarProperty Name="Severity" ColumnName="Severity" />
+          <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="ErrorSummary" ColumnName="ErrorSummary" />
+          <ScalarProperty Name="LastTimeActive" ColumnName="LastTimeActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
